@@ -22,8 +22,7 @@ O token, assim como o a URI da API, ficam parametrizados no arquivo **appsetting
             "PersonalAccessToken": "",
             "Project": ""
         }
-    },
-    "WiqlQuery": "SELECT [State], [Title] FROM WorkItems Where [Work Item Type] <> 'Task'"
+    }
 }
 ```
 
@@ -38,8 +37,6 @@ O token, assim como o a URI da API, ficam parametrizados no arquivo **appsetting
     - **PersonalAccessToken** é o token necessário para acesso a API do AzureDevOps que tem que ser criado para um usuário da conta onde existe o projeto
 
     - **Project** é o nome do projeto que existe na conta e que tem os WorkItems a serem recuperados os dados para gerar métricas
-
-**WiqlQuery** é a query utulizada para executar na API do AzureDevOps e recuperar os WorkItems do projeto.
 
 # Contribuições
 
