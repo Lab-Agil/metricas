@@ -3,6 +3,7 @@ using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 using Microsoft.VisualStudio.Services.Common;
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -66,7 +67,12 @@ namespace MetricasAzureDevOps
 
                     bool preencher = true;
 
-                    using (var writer = new StreamWriter("./output.csv"))
+                    string fileName = "output.csv";
+                    FileStream fs = null;
+            
+                    fs = new FileStream(fileName, FileMode.OpenOrCreate);
+
+                    using (StreamWriter writer = new StreamWriter(fs, Encoding.UTF8))
                         foreach (var item in workItemQueryResult.WorkItems)
                         {
                             var Revions = await workItemTrackingHttpClient.GetRevisionsAsync(item.Id);
