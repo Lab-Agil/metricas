@@ -42,11 +42,14 @@ namespace MetricasAzureDevOps
 
             var credentials = new VssBasicCredential("", personalAccessToken);
 
-            var wiqlQuery = configuration.GetSection("WiqlQuery").Value;
+            //var wiqlQuery = configuration.GetSection("WiqlQuery").Value;
 
-            var wiql = new Wiql()
+            Wiql wiql = new Wiql()
             {
-                Query = wiqlQuery
+                Query = "SELECT [State], [Title] " +
+                    "FROM WorkItems " +
+                    "Where [Work Item Type] <> 'Task' " +
+                    "And [System.TeamProject] = '" + project + "' "   
             };
 
             using (WorkItemTrackingHttpClient workItemTrackingHttpClient = new WorkItemTrackingHttpClient(uri, credentials))
