@@ -13,7 +13,6 @@ namespace MetricasAzureDevOps
 {
     class Program
     {
-        //static async Task Main(string[] args)
         static async Task Main()
         {
             Console.WriteLine("Iniciado...");
@@ -69,10 +68,13 @@ namespace MetricasAzureDevOps
 
                     string fileName = "output.csv";
                     FileStream fs = null;
-            
-                    fs = new FileStream(fileName, FileMode.OpenOrCreate);
+                    fs = new FileStream(fileName, FileMode.OpenOrCreate);          
+                    
+                    using (StreamWriter writer = new StreamWriter(fs, Encoding.UTF8)) {
+                    
+                    string[] header = { "id", "type", "title", "createdDate", "interation", "boardColumn", "changedDate" };
+                    writer.WriteLine(string.Join(";", header));
 
-                    using (StreamWriter writer = new StreamWriter(fs, Encoding.UTF8))
                         foreach (var item in workItemQueryResult.WorkItems)
                         {
                             var Revions = await workItemTrackingHttpClient.GetRevisionsAsync(item.Id);
@@ -109,6 +111,7 @@ namespace MetricasAzureDevOps
                                 if (preencher) writer.WriteLine(linha);
                             }
                         }
+                    }
                 }
             }
         }
