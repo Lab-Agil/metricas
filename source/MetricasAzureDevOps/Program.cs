@@ -39,6 +39,7 @@ namespace MetricasAzureDevOps
             var uri = new Uri(sources.FirstOrDefault(x => x.Key == "UriString").Value);
             var personalAccessToken = sources.FirstOrDefault(x => x.Key == "PersonalAccessToken").Value;
             var project = sources.FirstOrDefault(x => x.Key == "Project").Value;
+            var area = sources.FirstOrDefault(x => x.Key == "Area").Value;
 
             var credentials = new VssBasicCredential("", personalAccessToken);
 
@@ -49,7 +50,8 @@ namespace MetricasAzureDevOps
                 Query = "SELECT [State], [Title] " +
                     "FROM WorkItems " +
                     "Where [Work Item Type] <> 'Task' " +
-                    "And [System.TeamProject] = '" + project + "' "   
+                    "And [System.TeamProject] = '" + project + "' " +
+                    "And [System.AreaPath] = '" + area + "' "   
             };
 
             using (WorkItemTrackingHttpClient workItemTrackingHttpClient = new WorkItemTrackingHttpClient(uri, credentials))
@@ -72,7 +74,7 @@ namespace MetricasAzureDevOps
                     
                     using (StreamWriter writer = new StreamWriter(fs, Encoding.UTF8)) {
                     
-                    string[] header = { "id", "type", "title", "createdDate", "interation", "boardColumn", "changedDate" };
+                    string[] header = { "id", "type", "title", "createdDate", "area", "Interation", "boardColumn", "changedDate" };
                     writer.WriteLine(string.Join(";", header));
 
                         foreach (var item in workItemQueryResult.WorkItems)
@@ -88,6 +90,7 @@ namespace MetricasAzureDevOps
                                 var Interation = r.Fields.Where(p => p.Key == "System.IterationPath").ToDictionary(p => p.Key, p => p.Value).FirstOrDefault();
                                 var BoardColumn = r.Fields.Where(p => p.Key == "System.BoardColumn").ToDictionary(p => p.Key, p => p.Value).FirstOrDefault();
                                 var ChangedDate = r.Fields.Where(p => p.Key == "System.ChangedDate").ToDictionary(p => p.Key, p => p.Value).FirstOrDefault();
+                                var Area = r.Fields.Where(p => p.Key == "System.AreaPath").ToDictionary(p => p.Key, p => p.Value).FirstOrDefault();
 
                                 itemId = item.Id.ToString();
                                 boardColumn = BoardColumn.Value == null ? "-1" : BoardColumn.Value?.ToString();
@@ -99,9 +102,10 @@ namespace MetricasAzureDevOps
                                 , Type.Value.ToString()
                                 , Title.Value.ToString()
                                 , CreatedDate.Value.ToString()
+                                , Area.Value?.ToString()
                                 , Interation.Value?.ToString()
-                                , BoardColumn.Value?.ToString()
                                 , ChangedDate.Value?.ToString()
+                                , BoardColumn.Value?.ToString()
                             });
 
                                 itemIdAnterior = itemId;
