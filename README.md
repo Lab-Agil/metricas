@@ -20,7 +20,8 @@ O token, assim como o a URI da API, ficam parametrizados no arquivo **appsetting
         "NomeDoProjeto": {
             "UriString": "",
             "PersonalAccessToken": "",
-            "Project": ""
+            "Project": "",
+            "Area": ""
         }
     }
 }
@@ -37,6 +38,8 @@ O token, assim como o a URI da API, ficam parametrizados no arquivo **appsetting
     - **PersonalAccessToken** é o token necessário para acesso a API do AzureDevOps que tem que ser criado para um usuário da conta onde existe o projeto
 
     - **Project** é o nome do projeto que existe na conta e que tem os WorkItems a serem recuperados os dados para gerar métricas
+    
+    - **Area** é a Area Path dos WorkItems a serem recuperados os dados para gerar métricas
 
 # Contribuições
 
