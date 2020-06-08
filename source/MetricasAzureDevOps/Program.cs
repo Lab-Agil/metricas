@@ -74,7 +74,7 @@ namespace MetricasAzureDevOps
                     
                     using (StreamWriter writer = new StreamWriter(fs, Encoding.UTF8)) {
                     
-                    string[] header = { "id", "type", "title", "createdDate", "area", "Interation", "boardColumn", "changedDate" };
+                    string[] header = { "id", "type", "title", "createdDate", "area", "Interation", "changedDate","boardColumn" };
                     writer.WriteLine(string.Join(";", header));
 
                         foreach (var item in workItemQueryResult.WorkItems)
